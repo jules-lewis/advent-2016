@@ -1,6 +1,6 @@
 '''
 ------------------------------------------------------------------------------
-ADVENT OF CODE 2016 - DAY  3: Squares With Three Sides
+ADVENT OF CODE 2016 - DAY 3: Squares With Three Sides
 ------------------------------------------------------------------------------
 
 Now that you can think clearly, you move deeper into the labyrinth of 
@@ -19,8 +19,6 @@ remaining side. For example, the "triangle" given above is impossible,
 because 5 + 10 is not larger than 25.
 
 In your puzzle input, how many of the listed triangles are possible?
-
-To begin, get your puzzle input.
 
 ------------------------------------------------------------------------------
 PART 2
@@ -42,7 +40,6 @@ digit would be part of the same triangle:
 
 In your puzzle input, and instead reading by columns, how many of the listed 
 triangles are possible?
-
 
 ------------------------------------------------------------------------------
 NOTES
