@@ -1,6 +1,6 @@
 '''
 ------------------------------------------------------------------------------
-ADVENT OF CODE 2016 - DAY Day 2: Bathroom Security
+ADVENT OF CODE 2016 - DAY 2: Bathroom Security
 ------------------------------------------------------------------------------
 
 You arrive at Easter Bunny Headquarters under cover of darkness. However, you 
