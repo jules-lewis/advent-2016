@@ -70,6 +70,10 @@ lit?
 PART 2
 ------------------------------------------------------------------------------
 
+You notice that the screen is only capable of displaying capital letters; in 
+the font it uses, each letter is 5 pixels wide and 6 tall.
+
+After you swipe your card, what code is the screen trying to display?
 
 ------------------------------------------------------------------------------
 NOTES
@@ -91,7 +95,6 @@ def print_screen(screen):
     #A prettier output for Part 2
     print()
     for row in screen:
-#        raw_str = ''.join(row).replace(PIX_OFF, ' ')
         raw_str = ''.join(row)
         out_str = ''
         for n in range(len(raw_str)):
