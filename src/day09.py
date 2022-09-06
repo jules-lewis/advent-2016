@@ -91,10 +91,14 @@ start = time.perf_counter()
 #This article also really helpful: https://www.pythonforbeginners.com/basics/text-analysis-in-python
 pattern = re.compile(r'\(\d+x\d+\)')
 
+#Which part are we solving?
+part = 1
+
+#Load the data
 with open('txt/day09.txt') as f:
     data = f.read().strip()
 
-def decompress(l_data, pattern, part1):
+def decompress(l_data):
 
     match = pattern.search(l_data)
 
@@ -105,17 +109,18 @@ def decompress(l_data, pattern, part1):
         before = l_data[:l]
         chunk = l_data[r:r+length]
         after = l_data[r+length:]
-        if part1:
-            return len(before) + (length * repeat) + decompress(after, pattern, part1)
+        if part == 1:
+            return len(before) + (length * repeat) + decompress(after)
         else:
-            return len(before) + (decompress(chunk, pattern, part1) * repeat) + decompress(after, pattern, part1)
+            return len(before) + (decompress(chunk) * repeat) + decompress(after)
 
     else:
 
         return len(l_data)
 
-print(decompress(data, pattern, True))
-print(decompress(data, pattern, False))
+print(decompress(data))
+part = 2
+print(decompress(data))
 
 #Timing: End
 end = time.perf_counter()
