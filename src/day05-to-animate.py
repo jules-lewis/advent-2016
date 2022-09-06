@@ -78,6 +78,21 @@ NOTES
 
 Reminds me of Day 4 in 2015, so I've started there
 
+
+HERE'S SOME CODE FOR ANIMATING, WHEN I GET AROUND TO THAT!
+
+print('\r___', end='', flush=True)
+time.sleep(0.2)
+print('\r_B_', end='', flush=True)
+time.sleep(0.2)
+print('\rAB_', end='', flush=True)
+time.sleep(0.2)
+print('\rABC', end='', flush=True)
+time.sleep(0.2)
+print()
+
+
+
 '''
 
 import time
