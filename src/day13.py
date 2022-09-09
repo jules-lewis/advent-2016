@@ -107,7 +107,6 @@ while (31, 39) not in here:
         part2 = len(visited)
 print(f'Part 1: {steps}')
 print(f'Part 2: {part2}')
-print(here)
 
 #Timing: End
 end = time.perf_counter()
