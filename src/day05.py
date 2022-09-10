@@ -78,28 +78,17 @@ NOTES
 
 Reminds me of Day 4 in 2015, so I've started there
 
-
-HERE'S SOME CODE FOR ANIMATING, WHEN I GET AROUND TO THAT!
-
-print('\r___', end='', flush=True)
-time.sleep(0.2)
-print('\r_B_', end='', flush=True)
-time.sleep(0.2)
-print('\rAB_', end='', flush=True)
-time.sleep(0.2)
-print('\rABC', end='', flush=True)
-time.sleep(0.2)
-print()
-
-
-
 '''
 
 import time
 import hashlib
+import random
 
 #Timing: Start
 start = time.perf_counter()
+
+#Used in the animated password display
+HEX = "0123456789abcdef"
 
 def solve_part1(key):
 
@@ -116,6 +105,15 @@ def solve_part1(key):
                 return password
         n += 1
 
+def update_display(password):
+    display = ''
+    for c in password:
+        if c == '.':
+            display += HEX[random.randint(0, 15)]
+        else:
+            display += c
+    print(f'\r{display}  ', end='', flush=True)
+
 def solve_part2(key):
 
     prefix = '00000'
@@ -125,20 +123,22 @@ def solve_part2(key):
     while True:
         s = key + str(n)
         h = hashlib.md5(s.encode()).hexdigest()
+
+        if n % 10000 == 0: update_display(password)
+
         if h[:5] == prefix:
             i_str = h[5]
             if i_str in '01234567':
                 index = int(i_str)
                 if password[index] == '.':
                     password = password[:index] + h[6] + password[index+1:]
-                    print(password)
                 if '.' not in password:
-                    return password
+                    print(f'\r{password}  ')
+                    break
         n += 1
 
 print(solve_part1('abbhdwsy'))
-print(solve_part2('abbhdwsy'))
-
+solve_part2('abbhdwsy')
 
 #Timing: End
 end = time.perf_counter()
