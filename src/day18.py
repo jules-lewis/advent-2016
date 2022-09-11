@@ -105,45 +105,37 @@ start = time.perf_counter()
 with open('txt/day18.txt') as f:
     line = f.read().strip()
 
-def count_safe(s):
-    return s.count('.') - 2
-
 def apply_rules(s):
-    #Rules
-    #(i)   Its left and center tiles are traps, but its right tile is not.
-    #(ii)  Its center and right tiles are traps, but its left tile is not.
-    #(iii) Only its left tile is a trap.
-    #(iv)  Only its right tile is a trap.
-    #To avoid catering specifcally for the left and right, I've decided to
+    #Rules: Looking at the above rules, if you can avoid worrying about the
+    #       leftmost and rightmost tile, the rules down to: tile is a trap
+    #       if the previous left and right tiles are different.
+    #To avoid catering specifically for the left and right, I've decided to
     # explicitly add 'safe' spaces at the beginning and end of each line
 
-    if s in memo:
-        return memo[s]
-    else:
-        rtn = '.'
-        for i in range(len(s)-2):
-            if s[i] != s[i+2]:
-                rtn += '^'
-            else:
-                rtn += '.'
-        rtn += '.'
-        memo[s] = rtn
-        return rtn
+    #Memoization is not worth the cost of looking them up
+
+    rtn = '.'
+    for i in range(len(s)-2):
+        if s[i] != s[i+2]:
+            rtn += '^'
+        else:
+            rtn += '.'
+    return rtn + '.'
 
 def solve(str_solve, n):
-    total_safe = count_safe(str_solve)
+    total_safe = str_solve.count('.') - 2
     for i in range(n-1):
         str_solve = apply_rules(str_solve)
-        total_safe += count_safe(str_solve)
+        total_safe += str_solve.count('.') - 2
     return total_safe
 
-memo = {}
+line = '.' + line + '.'
 
 #Part 1
-print(solve('.' + line + '.', 40))
+print(solve(line, 40))
 
 #Part 2
-print(solve('.' + line + '.', 400000))
+print(solve(line, 400000))
 
 #Timing: End
 end = time.perf_counter()
