@@ -1,6 +1,6 @@
 '''
 ------------------------------------------------------------------------------
-ADVENT OF CODE 2016 - DAY Day 20: Firewall Rules
+ADVENT OF CODE 2016 - DAY 20: Firewall Rules
 ------------------------------------------------------------------------------
 
 You'd like to set up a small hidden computer here so you can use it to get 
