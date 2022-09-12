@@ -67,26 +67,24 @@ for d in data:
         break
 
 #Part 2
-allowed = [(0, 4294967295)]
-for d in data:
-    lbound, rbound = d
-    new = []
-    for a in allowed:
-        #Are we taking a chunk out of the middle?
-        if lbound > a[0] and rbound < a[1]:
-            new.append((a[0], lbound))
-            new.append((rbound, a[1]))
-        #Are we taking a chunk off the left?
-        elif rbound > a[0]:
-            new.append((rbound, a[1]))
-        #Are we taking a chunk off the right?
-        elif lbound < a[1]:
-            new.append((a[0], lbound))
-        #This one isn't affected
-        else:
-            new.append(a)
-    allowed = sorted(new)
-print(allowed)
+
+#First, merge the sorted bans, by looking at each successive ban and
+#checking whether it overlaps with (or adjoins) the previous
+merged = [data[0]]
+for current_ban in data[1:]:
+    previous_ban = merged[-1]
+    if current_ban[0] <= previous_ban[1] + 1:
+        previous_ban[1] = max(previous_ban[1], current_ban[1])
+    else:
+        merged.append(current_ban)
+
+#With all the bans merged, we can simply sum up the gaps
+safe_ips = 0
+previous_rbound = merged[0][1]
+for current_ban in merged[1:]:
+    safe_ips += current_ban[0] - previous_rbound - 1
+    previous_rbound = current_ban[1]
+print(safe_ips)
 
 #Timing: End
 end = time.perf_counter()
