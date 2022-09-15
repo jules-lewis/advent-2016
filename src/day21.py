@@ -76,16 +76,23 @@ input, what is the result of scrambling abcdefgh?
 PART 2
 ------------------------------------------------------------------------------
 
+You scrambled the password correctly, but you discover that you can't 
+actually modify the password file on the system. You'll need to un-scramble 
+one of the existing passwords by reversing the scrambling process.
+
+What is the un-scrambled version of the scrambled password fbgdceah?
 
 ------------------------------------------------------------------------------
 NOTES
 ------------------------------------------------------------------------------
 
-Puzzle input = abcdefgh
+Part 1 puzzle INPUT = abcdefgh
+Part 2 puzzle OUTPUT = fbgdceah
 
 '''
 
 import time
+import itertools
 
 #Timing: Start
 start = time.perf_counter()
@@ -94,60 +101,79 @@ start = time.perf_counter()
 with open('txt/day21.txt') as f:
     data = [line.strip().split() for line in f.readlines()]
 
-input = 'abcdefgh'
-print(input)
-print('——————————')
+def solve(input):
 
-for line in data:
-    instruction = ' '.join(line[0:2])
-    if instruction == 'rotate right':
-        '''
-        offset = int(line[2])
-        if offset > 0:
-            split = len(input) - offset
-            input = input[split:] + input[:split]
-            print(f'{instruction} {offset}')
-            print(input)
-            print('——————————')
-        '''
-    elif instruction == 'rotate left':
-        '''
-        offset = int(line[2])
-        if offset > 0:
-            input = input[offset:] + input[:offset]
-            print(f'{instruction} {offset}')
-            print(input)
-            print('——————————')
-        '''
-    elif instruction == 'swap letter':
-        '''
-        input = input.replace(line[2], '#')
-        input = input.replace(line[5], line[2])
-        input = input.replace('#', line[5])
-        print(f'{instruction} {line[2]} with {line[5]}')
-        print(input)
-        print('——————————')
-        '''
-    elif instruction == 'swap position':
-        '''
-        copy = ''
-        s1 = int(line[2])
-        s2 = int(line[5])
-        for i in range(len(input)):
-            if i == s1:
-                copy += input[s2]
-            elif i == s2:
-                copy += input[s1]
+    for line in data:
+        instruction = ' '.join(line[0:2])
+        if instruction == 'rotate right':
+            offset = int(line[2])
+            if offset > 0:
+                split = len(input) - offset
+                input = input[split:] + input[:split]
+        elif instruction == 'rotate left':
+            offset = int(line[2])
+            if offset > 0:
+                input = input[offset:] + input[:offset]
+        elif instruction == 'swap letter':
+            input = input.replace(line[2], '#')
+            input = input.replace(line[5], line[2])
+            input = input.replace('#', line[5])
+        elif instruction == 'swap position':
+            copy = ''
+            s1 = int(line[2])
+            s2 = int(line[5])
+            for i in range(len(input)):
+                if i == s1:
+                    copy += input[s2]
+                elif i == s2:
+                    copy += input[s1]
+                else:
+                    copy += input[i]
+            input = copy
+        elif instruction == 'move position':
+            move_from = int(line[2]) 
+            move_to = int(line[5])
+            lst_input = list(input)
+            c = lst_input.pop(move_from)
+            lst_input.insert(move_to, c)
+            input = ''.join(lst_input)
+        elif instruction == 'reverse positions':
+            l = int(line[2]) 
+            r = int(line[4])
+            lst_input = list(input)
+            lst_out = []
+            if l > 0: lst_out.extend(lst_input[:l])
+            lst_out.extend(reversed(lst_input[l:r+1]))
+            if r < 7: lst_out.extend(lst_input[r+1:])
+            input = ''.join(lst_out)
+        elif instruction == 'rotate based':
+            string_to_find = line[-1]
+            index = input.find(string_to_find)
+            if index >= 4:
+                offset = index + 2
             else:
-                copy += input[i]
-        input = copy
-        print(f'{instruction} {line[2]} with {line[5]}')
-        print(input)
-        print('——————————')
-        '''
-    else:
-        print(f'NOT HANDLING: {instruction}')
+                offset = index + 1
+            if offset > 7:
+                offset = int(offset % 8)
+            if offset > 0:
+                split = len(input) - offset
+                input = input[split:] + input[:split]
+        else:
+            print(f'NOT HANDLING: {instruction}')
 
+    return input
+
+#Part 1
+print(solve('abcdefgh'))
+
+#Part 2
+#I'm afraid it took so long to code the function in one direction, I'm
+#just brute forcing part 2!
+for perm in itertools.permutations(list('abcdefgh')):
+    input = ''.join(perm)
+    if solve(input) == 'fbgdceah':
+        print(input)
+        break
 
 #Timing: End
 end = time.perf_counter()
