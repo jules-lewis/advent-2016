@@ -135,14 +135,6 @@ def solve(input):
             l = int(line[2]) 
             r = int(line[4])
             input = input[:l] + input[l:r+1][::-1] + input[r+1:]
-            '''
-            lst_input = list(input)
-            lst_out = []
-            if l > 0: lst_out.extend(lst_input[:l])
-            lst_out.extend(reversed(lst_input[l:r+1]))
-            if r < 7: lst_out.extend(lst_input[r+1:])
-            input = ''.join(lst_out)
-            '''
         elif instruction == 'rotate based':
             string_to_find = line[-1]
             index = input.find(string_to_find)
