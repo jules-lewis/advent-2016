@@ -115,21 +115,15 @@ def solve(input):
             if offset > 0:
                 input = input[offset:] + input[:offset]
         elif instruction == 'swap letter':
-            input = input.replace(line[2], '#')
-            input = input.replace(line[5], line[2])
-            input = input.replace('#', line[5])
+            l = line[2]
+            r = line[5]
+            input = input.replace(l, '#').replace(r, l).replace('#', r)
         elif instruction == 'swap position':
-            copy = ''
-            s1 = int(line[2])
-            s2 = int(line[5])
-            for i in range(len(input)):
-                if i == s1:
-                    copy += input[s2]
-                elif i == s2:
-                    copy += input[s1]
-                else:
-                    copy += input[i]
-            input = copy
+            lst_input = list(input)
+            l = int(line[2])
+            r = int(line[5])
+            lst_input[l], lst_input[r] = lst_input[r], lst_input[l]
+            input = ''.join(lst_input)
         elif instruction == 'move position':
             move_from = int(line[2]) 
             move_to = int(line[5])
@@ -140,12 +134,15 @@ def solve(input):
         elif instruction == 'reverse positions':
             l = int(line[2]) 
             r = int(line[4])
+            input = input[:l] + input[l:r+1][::-1] + input[r+1:]
+            '''
             lst_input = list(input)
             lst_out = []
             if l > 0: lst_out.extend(lst_input[:l])
             lst_out.extend(reversed(lst_input[l:r+1]))
             if r < 7: lst_out.extend(lst_input[r+1:])
             input = ''.join(lst_out)
+            '''
         elif instruction == 'rotate based':
             string_to_find = line[-1]
             index = input.find(string_to_find)
